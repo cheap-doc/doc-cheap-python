@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "doc-cheap"
-version = "0.1.0"
+version = "0.2.0"
 description = "Typed Python client for the doc.cheap document-recognition API: read passports, ID cards and driver's licences into JSON."
 readme = "README.md"
 license = "MIT"
