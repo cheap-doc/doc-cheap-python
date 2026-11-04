@@ -31,6 +31,8 @@ from ._errors import (
 )
 from ._types import (
     Confidence,
+    CountryCodeCategory,
+    CountryCodeDetail,
     CreditsByKind,
     FreeAllowance,
     Scan,
@@ -66,6 +68,8 @@ __all__ = [
     "Client",
     "Confidence",
     "ConflictError",
+    "CountryCodeCategory",
+    "CountryCodeDetail",
     "CreditsByKind",
     "DocCheapError",
     "FreeAllowance",

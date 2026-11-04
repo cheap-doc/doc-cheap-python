@@ -24,7 +24,7 @@ SCAN = {"meta": {"id": "scan_1", "status": "unsupported_document", "billed": Fal
 
 
 def test_version_is_exported() -> None:
-    assert doc_cheap.__version__ == "0.1.0"
+    assert doc_cheap.__version__ == "0.2.0"
     assert "Client" in doc_cheap.__all__
 
 
@@ -79,14 +79,14 @@ def test_headers(client: Client, recorder: Recorder) -> None:
     headers = recorder.last.headers
     assert headers["accept"] == "application/json"
     assert headers["authorization"] == "Bearer sk_test_key"
-    assert headers["user-agent"].startswith("doc-cheap-python/0.1.0 ")
+    assert headers["user-agent"].startswith("doc-cheap-python/0.2.0 ")
     assert "content-type" not in headers
 
 
 def test_user_agent_product_token(recorder: Recorder) -> None:
     http = httpx.Client(transport=httpx.MockTransport(recorder))
     Client("k", http_client=http, user_agent="  my-app/1.0 ").usage()
-    assert recorder.last.headers["user-agent"].startswith("my-app/1.0 doc-cheap-python/0.1.0")
+    assert recorder.last.headers["user-agent"].startswith("my-app/1.0 doc-cheap-python/0.2.0")
     Client("k", http_client=http, user_agent="   ").usage()
     assert recorder.last.headers["user-agent"].startswith("doc-cheap-python/")
 

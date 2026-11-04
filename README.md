@@ -42,6 +42,8 @@ if scan["document"] and scan["document"]["expiry_date"]:
 - **Sandbox key** – `sk_sandbox_public` (the `doc_cheap.SANDBOX_KEY` constant)
   works without an account. It gives 10 free recognised documents per address
   in all, and at most 10 requests per address an hour, whatever their answer.
+  Use test images only, never a real document: it keeps a record of every scan
+  for one year.
 
 `Client()` without a key reads it from the `DOC_CHEAP_API_KEY` environment
 variable, which keeps a live key out of source code. The key is sent as a
@@ -63,8 +65,10 @@ with a status such as `unreadable` or `no_document_found` and `billed` set to
 
 **Stored results.** A result is stored only when the scan was made with a live
 key under a non-zero retention window, and only until that window ends. Under
-the sandbox key nothing is stored, so `get_scan` and `delete_scan` raise
-`NotFoundError`. None of `get_scan`, `delete_scan` or `usage` charges a credit.
+a sandbox key nothing can be read back: an account's own sandbox key stores nothing, and the public key
+`sk_sandbox_public` keeps every scan for one year, with a reduced thumbnail and the
+address it came from, where that key cannot reach it. So `get_scan` and
+`delete_scan` raise `NotFoundError`. None of `get_scan`, `delete_scan` or `usage` charges a credit.
 
 ## Errors
 

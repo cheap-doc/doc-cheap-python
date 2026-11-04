@@ -2,8 +2,10 @@
 
 The client returns the decoded JSON as it came, so every field the API adds
 later is still there; these types describe the fields known today, for editors
-and type checkers. Dates are ISO-8601 strings and country codes are ISO 3166-1
-alpha-3.
+and type checkers. Dates are ISO-8601 strings. Country codes are the document's
+own three-letter codes: ISO 3166-1 alpha-3 for almost every state, Germany's
+``D`` given as ``DEU``, and codes only ICAO assigns (such as ``GBD`` or ``XXA``)
+as written; the ``*_detail`` objects say which of these a code is.
 """
 
 from __future__ import annotations
@@ -40,11 +42,41 @@ class ScanMeta(TypedDict):
     reference: str | None
 
 
+CountryCodeCategory = Literal[
+    "iso",
+    "icao_variant",
+    "british_nationality",
+    "kosovo",
+    "united_nations",
+    "organization",
+    "stateless",
+    "refugee",
+    "unspecified",
+    "deprecated",
+    "specimen",
+    "unknown",
+]
+"""What kind of code a document's country code is."""
+
+
+class CountryCodeDetail(TypedDict):
+    """A country code resolved: as the document writes it, and as ISO 3166-1.
+
+    ``alpha3`` and ``alpha2`` are ``None`` when ISO has no code for it.
+    """
+
+    code: str
+    alpha3: str | None
+    alpha2: str | None
+    category: CountryCodeCategory
+
+
 class ScanDocument(TypedDict):
     kind: str
     country: str | None
     country_name: str | None
     issuing_state: str | None
+    issuing_state_detail: CountryCodeDetail | None
     type_name: str | None
     type_confidence: Confidence
     number: str | None
@@ -62,6 +94,7 @@ class ScanHolder(TypedDict):
     birth_date: str | None
     sex: str | None
     nationality: str | None
+    nationality_detail: CountryCodeDetail | None
 
 
 class ScanField(TypedDict):
